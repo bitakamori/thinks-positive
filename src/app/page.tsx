@@ -10,7 +10,7 @@ export default function Home() {
   const handleClick = async () => {
     setErro(null);
     try {
-      const res = await fetch("https://api.quotable.io/random");
+      const res = await fetch("https://buddha-api.com/api/random");
       if (!res.ok) {
         throw new Error("falha");
       }
