@@ -11,7 +11,7 @@ export default function Home() {
     setErro(null);
     try {
       const res = await fetch(
-        "http://api.forismatic.com/api/1.0/?method=getQuote&format=jsonp&lang=en&jsonp=handleQuotehttps://goquotes-api.herokuapp.com/api/v1/random?count=1"
+        "https://goquotes-api.herokuapp.com/api/v1/random?count=1"
       );
       if (!res.ok) {
         throw new Error("falha");
