@@ -10,9 +10,7 @@ export default function Home() {
   const handleClick = async () => {
     setErro(null);
     try {
-      const res = await fetch(
-        "https://goquotes-api.herokuapp.com/api/v1/random?count=1"
-      );
+      const res = await fetch("https://api.quotable.io/random");
       if (!res.ok) {
         throw new Error("falha");
       }
