@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Thinks Positive",
-  description: "A platform for positive thinking and mental wellness",
+  title: "Universe advice",
+  description: "A platform for daily advice from the universe",
 };
 
 export default function RootLayout({
