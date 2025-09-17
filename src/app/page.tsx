@@ -1,5 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import Link from "next/link";
 
 export default function Home() {
   const [showLuck, setShowLuck] = useState(false);
@@ -9,31 +11,35 @@ export default function Home() {
   const CACHE_KEY = "advice_cache";
   const CACHE_EXPIRATION = 1440 * 60 * 1000;
 
-  const loadAdvice = async (useCache = true) => {
-    setErro(null);
+  const loadAdvice = useCallback(
+    async (useCache = true) => {
+      setErro(null);
 
-    if (useCache) {
-      const cacheData = localStorage.getItem(CACHE_KEY);
-      if (cacheData) {
-        try {
-          const { advice, timestamp } = JSON.parse(cacheData);
-          const now = Date.now();
-          if (now - timestamp < CACHE_EXPIRATION) {
-            setDados(advice);
-            setShowLuck(true);
-            return true;
+      if (useCache) {
+        const cacheData = localStorage.getItem(CACHE_KEY);
+        if (cacheData) {
+          try {
+            const { advice, timestamp } = JSON.parse(cacheData);
+            const now = Date.now();
+            if (now - timestamp < CACHE_EXPIRATION) {
+              setDados(advice);
+              setShowLuck(true);
+              return true;
+            }
+          } catch (e) {
+            console.error(e);
+            localStorage.removeItem(CACHE_KEY);
           }
-        } catch (e) {
-          console.error(e);
-          localStorage.removeItem(CACHE_KEY);
         }
       }
-    }
-  };
+    },
+    [CACHE_EXPIRATION]
+  );
+
   useEffect(() => {
     loadAdvice(true);
     setLoading(true);
-  }, []);
+  }, [loadAdvice]);
 
   const handleClick = async () => {
     await loadAdvice(false);
@@ -74,13 +80,22 @@ export default function Home() {
         {showLuck && loading && (
           <div className="text-center">
             <p className="text-xl md:text-5xl font-bold">{dados}</p>
-            <footer>
-              <p className="pt-10 text-center text-md md:text-lg">
-                come back tomorrow to talk to the universe again🔮
-              </p>
-            </footer>
+            <p className="pt-10 text-center text-md md:text-lg">
+              come back tomorrow to talk to the universe again🔮
+            </p>
           </div>
         )}
+        <footer className="flex absolute bottom-5 right-5 md:right-10">
+          <p className="pr-2 pt-[2.5px]">Bianca Takamori</p>
+          <Link
+            href="https://github.com/bitakamori/universe-advice"
+            aria-label="View code"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <GitHubIcon className="h-4 w-4 text-gray-700" />
+          </Link>
+        </footer>
       </div>
     </>
   );
